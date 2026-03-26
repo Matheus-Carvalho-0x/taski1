@@ -3,9 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/style.css" />
     <title>Taski</title>
   </head>
   <body>
     <h1>Taski</h1>
+    <div id="tasklist"></div>
+    <label for="task">Task: </label>
+    <input
+      type="text"
+      name="task"
+      id="input"
+      placeholder="Type a task"
+      required
+    />
+    <button type="submit" id="save">Save</button>
+    <script src="/static/script.js"></script>
   </body>
 </html>

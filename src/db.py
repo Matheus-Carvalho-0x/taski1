@@ -20,7 +20,8 @@ def startDB(data):
     # Functions: create, read, update, delete
     def insert(data):
         cursor.execute(f"""INSERT INTO tasks (task)
-                       VALUES ('{data}')""")
+                       VALUES (?)""", (data,))
+        connection.commit()
 
     def select():
         cursor.execute(f"""SELECT * FROM tasks""")
@@ -35,16 +36,16 @@ def startDB(data):
         cursor.execute(f"DELETE FROM tasks WHERE id = {data}")
 
 
-    # Operational
-    match data[0]:
-        case 1:
-            insert(data[1])
-        case 2:
-            tasks = select()
-            return tasks
-        case 3:
-            update(data[1])
-        case 4:
-            delete(data[1])
+    # # Operational
+    # match data[0]:
+    #     case 1:
+    #         insert(data[1])
+    #     case 2:
+    #         tasks = select()
+    #         return tasks
+    #     case 3:
+    #         update(data[1])
+    #     case 4:
+    #         delete(data[1])
 
-    connection.commit()
+    # connection.commit()
