@@ -3,8 +3,8 @@ import db
 while 1:
     print("#======================================#")
     choice = int(input("""Type: 
-1 - Add a new item;
-2 - See all itens;
+1- Add a new item;
+2- See all itens;
 3- Edit an item;
 4- Delete an item;
 5- To exit;\n"""))

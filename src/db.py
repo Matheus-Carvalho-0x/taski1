@@ -7,7 +7,7 @@ def startDB(data):
 
     # Extra safety to create the .db file
     BASE_DIR = Path(__file__).resolve().parent
-    db_path = BASE_DIR.parent/"db"/"databank.db"
+    db_path = BASE_DIR.parent/"db"/"database.db"
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
