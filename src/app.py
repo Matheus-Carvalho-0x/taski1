@@ -1,8 +1,7 @@
 from fastapi import FastAPI, Request
 from pathlib import Path
 import sqlite3
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 # ======== DB configs ========
 # Extra safety to create the .db file
@@ -19,15 +18,16 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS tasks (
 
 # ======== FastAPI configs ========
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="../front-end", html=True), name="static")
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5500",
+                   "http://127.0.0.1:5500"],
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
 
 # ======== Endpoints ========
-@app.get("/")
-def home():
-    return FileResponse("../front-end/index.html")
-
-
 @app.post("/insert")
 async def insert(request:Request):
     body = await request.json()
