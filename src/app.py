@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 BASE_DIR = Path(__file__).resolve().parent
 db_path = BASE_DIR.parent/"db"/"database.db"
 
-connection = sqlite3.connect(db_path)
+connection = sqlite3.connect(db_path, check_same_thread=False)
 cursor = connection.cursor()
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS tasks (
@@ -18,10 +18,10 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS tasks (
 
 # ======== FastAPI configs ========
 app = FastAPI()
+origins = ['http://localhost:5500', 'http://127.0.0.1:5500']
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5500",
-                   "http://127.0.0.1:5500"],
+    allow_origins=origins,
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"],
@@ -36,3 +36,11 @@ async def insert(request:Request):
                        VALUES (?)""", (data,))
     connection.commit()
     return {"status": "ok"}
+
+
+@app.get("/data")
+def list():
+    cursor.execute("SELECT * FROM tasks")
+    data = cursor.fetchall()
+    data_list = [{"id": x[0], "task": f"{x[1]}"} for x in data]
+    return data_list
