@@ -13,9 +13,22 @@ savebutton.addEventListener("click", async () => {
 });
 
 async function list() {
-  const request = await fetch("http://127.0.0.1:8000/data");
-  const response = await request.json();
-  console.log(response);
+  try {
+    const request = await fetch("http://127.0.0.1:8000/data");
+    const response = await request.json();
+    console.log(response);
+
+    tasklist.innerHTML = "";
+
+    const data = Object.values(response);
+    for (let i = 0; i < data.length; i++) {
+      const p = document.createElement("p");
+      p.textContent = data[i].task;
+      tasklist.appendChild(p);
+    }
+  } catch (e) {
+    tasklist.textContent = "Unable to load content!";
+  }
 }
 
 list();
