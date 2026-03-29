@@ -44,3 +44,13 @@ def list():
     data = cursor.fetchall()
     data_list = [{"id": x[0], "task": f"{x[1]}"} for x in data]
     return data_list
+
+
+@app.delete("/delete")
+async def delete(request:Request):
+    body = await request.json()
+    id = body.get("Content")
+    cursor.execute("""DELETE FROM tasks
+                   WHERE id = (?)""", (id,))
+    connection.commit()
+    return {"status": "ok"}
